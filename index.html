@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Enter a location for Weather ..." id="city-input">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-danger" id="search">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img id="icon" src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1 id="city-name">Dhaka</h1>
+            <h3><span id="tempareture">38.06</span>&deg;C</h3>
+            <h1 class="lead" id="sky">Clouds</h1>
+        </div>
+    </div>
+
+<script>
+        
+document.getElementById('search').addEventListener('click',function(){
+const city = document.getElementById('city-input').value
+   fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=5a557a2f8fae7a5bdd6b360d41e3de34`)
+  .then(response => response.json())
+  .then(data => {
+       weatherUpdate(data)   
+   })
+})
+
+
+function weatherUpdate(data){
+        document.getElementById('city-name').innerText = data.city.name
+        document.getElementById('tempareture').innerText = data.list[0].main.temp
+        document.getElementById('sky').innerText=data.list[0].weather[0].description
+        document.getElementById('icon').setAttribute('src', `https://openweathermap.org/img/wn/${data.list[0].weather[0].icon}@2x.png`)
+}
+
+</script>
+</body>
+
+</html>
